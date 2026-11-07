@@ -21,25 +21,32 @@ out of `uncrustables-line.gif`, so they look exactly like the GIF.
 | 8 | k08 | finished row + crimp sparkle |
 | 9 | k09 | batch rides the belt off the front edge |
 
-## Deploy to Cloudflare Pages (free, nothing to keep running)
+## Deploy as a Cloudflare Worker (free, nothing to keep running)
 
-1. Sign in at https://dash.cloudflare.com, then **Workers & Pages → Create → Pages → Upload assets**.
-2. Name the project (for example `uncrustables-line`) and drag **this `worker` folder** in. `_worker.js` is the whole app; the `frames/` PNGs are just there for reference and `serve.py`.
-3. Cloudflare gives you a URL like `https://uncrustables-line.pages.dev/`. Open `https://uncrustables-line.pages.dev/preview` in a browser to see all ten keyframes and the live one.
+The Glance can only load **plain `http://`** URLs. `workers.dev` serves plain
+http, so the worker lives there. (Cloudflare Pages forces a redirect to https
+and the Glance rejects it with "Image verification failed".)
 
-Or from a terminal, from this folder:
+From this folder (first time: `npx wrangler login`):
 
 ```bash
-npx wrangler login
-npx wrangler pages deploy . --project-name uncrustables-line
+npx wrangler deploy
 ```
 
-Re-deploy the same way whenever the GIF changes (run `build_worker.py` first).
+`wrangler.toml` names the worker `uncrustables-line`, so it deploys to
+`http://uncrustables-line.<your-subdomain>.workers.dev/`. The one deployed on
+2026-11-07 is:
+
+    http://uncrustables-line.87dustinsmith.workers.dev/
+
+Open `http://uncrustables-line.87dustinsmith.workers.dev/preview` in a browser
+to see all ten keyframes and the live one. Re-run `npx wrangler deploy`
+whenever the GIF changes (run `build_worker.py` first).
 
 ## Add it to the Glance
 
 1. Glance Setup app → **Apps** → **Private Apps** tab → **+**.
-2. Image URL: `http://uncrustables-line.pages.dev/` (your project's URL).
+2. Image URL: `http://uncrustables-line.87dustinsmith.workers.dev/` (must start with `http://`, not `https://`).
 3. Refresh interval: **60 seconds**. This must equal `STEP` in `_worker.js` (60), or the beats won't line up. If Glance Setup won't accept 60, pick the smallest it allows and change `STEP` to match, then re-deploy.
 4. Width 192, height 32.
 

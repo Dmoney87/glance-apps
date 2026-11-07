@@ -1,0 +1,6 @@
+# Cloudflare Worker config (workers.dev serves plain http://, which the Glance
+# needs; Pages forces https). Deploy from this folder: npx wrangler deploy
+name = "uncrustables-line"
+main = "_worker.js"
+compatibility_date = "2026-11-01"
+workers_dev = true

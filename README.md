@@ -15,6 +15,6 @@ refresh and loops every 10 beats. See
 [`uncrustables-line/worker/README.md`](uncrustables-line/worker/README.md) for
 the Cloudflare deploy and Glance Setup steps.
 
-- `uncrustables-line/worker/` — deploy this folder to Cloudflare Pages (`_worker.js` + reference `frames/`)
+- `uncrustables-line/worker/` — the Cloudflare Worker (`_worker.js` + `wrangler.toml` + reference `frames/`), live at http://uncrustables-line.87dustinsmith.workers.dev/ (the Glance needs plain http, which workers.dev serves and Pages does not)
 - `uncrustables-line/serve.py` — same thing on a Mac or Raspberry Pi over the LAN
 - `uncrustables-line/build_worker.py` — regenerates the keyframes and worker from `uncrustables-line.gif`
